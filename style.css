@@ -41,7 +41,7 @@ body.panel-open {
 }
 
 @keyframes fadeInAnimation {
-    from { opacity: 0; transform: translate3d(0, 10px, 0); }
+    from { opacity: 0; transform: translate3d(0, 0.6rem, 0); }
     to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
@@ -50,7 +50,7 @@ body.panel-open {
 }
 
 @keyframes fadeInSignature {
-    from { opacity: 0; transform: translate3d(-50%, 10px, 0); }
+    from { opacity: 0; transform: translate3d(-50%, 0.6rem, 0); }
     to { opacity: 1; transform: translate3d(-50%, 0, 0); }
 }
 
@@ -98,18 +98,6 @@ main {
     z-index: 5;
 }
 
-@media (max-width: 768px) {
-    .top-right-nav {
-        top: 4rem;
-        position: fixed;
-        right: auto;
-        width: 100%;
-        padding: 0 5vw;
-        justify-content: space-between;
-        gap: 0;
-    }
-}
-
 .nav-link {
     cursor: pointer;
     background: none;
@@ -141,23 +129,12 @@ main {
 .nav-label::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -0.3rem;
     left: 0;
     width: 0;
-    height: 1px;
+    height: 0.0625rem;
     background: var(--text-primary);
     transition: width 0.6s var(--ease);
-}
-
-@media (hover: hover) {
-    .nav-link:hover .nav-label {
-        color: var(--text-primary);
-        letter-spacing: 0.5em;
-    }
-
-    .nav-link:hover .nav-label::after {
-        width: 100%;
-    }
 }
 
 .contact-reveal {
@@ -176,23 +153,11 @@ main {
     text-transform: none;
 }
 
-@media (max-width: 768px) {
-    .contact-reveal {
-        display: none;
-    }
-}
-
-@media (hover: hover) {
-    .nav-link:hover .contact-reveal {
-        opacity: 1;
-        transform: translateY(2px);
-    }
-}
-
-
 .signature {
     position: fixed;
     bottom: 4rem;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1;
     white-space: nowrap;
     transition: transform 0.1s ease;
@@ -238,13 +203,13 @@ aside {
     width: 40%;
     height: 100%;
     background: #fefefa;
-    border-left: 1px solid #E8E8E5;
+    border-left: 0.0625rem solid #E8E8E5;
     padding: 4rem 5vw 10vh 5vw;
     display: flex;
     flex-direction: column;
     transition: right var(--transition-speed) var(--ease);
     z-index: 10;
-    box-shadow: -15px 0 50px rgba(0, 0, 0, 0.02);
+    box-shadow: -1rem 0 3rem rgba(0, 0, 0, 0.02);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
@@ -346,57 +311,6 @@ aside.active {
     z-index: 100;
 }
 
-@media (max-width: 768px) {
-    body.panel-open {
-        transform: translateX(0);
-    }
-    aside {
-        width: 100%;
-        right: -100%;
-        overflow: hidden;
-        padding: 0;
-    }
-    .panel-header {
-        position: relative;
-        top: 0;
-        left: 0;
-        width: 100%;
-        padding: 4rem 5vw 1rem 5vw;
-        justify-content: space-between;
-        margin-bottom: 0;
-        flex-shrink: 0;
-        background: var(--bg-color);
-        z-index: 12;
-    }
-    .panel-title {
-        font-size: 0.7rem;
-        padding: 0.5rem 0;
-        padding-left: 14px;
-    }
-    .close-btn {
-        padding: 0.5rem 0;
-        padding-right: 14px;
-        margin-right: 0;
-    }
-    .panel-content {
-        margin-top: 2rem;
-        padding: 0 calc(5vw + 14px) 10vh calc(5vw + 14px);
-        overflow-y: auto;
-        flex-grow: 1;
-        -webkit-overflow-scrolling: touch;
-        max-width: none;
-    }
-    .statement {
-        font-size: 1.25rem;
-    }
-    .credo-label {
-        padding-left: 14px;
-    }
-    .contact-label {
-        padding-right: 14px;
-    }
-}
-
 /* Mobile Contact Toast */
 .contact-toast {
     position: fixed;
@@ -425,8 +339,99 @@ aside.active {
     transform: translateY(0);
 }
 
+/* --- Media Queries --- */
+
+@media (max-width: 768px) {
+    .top-right-nav {
+        top: 4rem;
+        position: fixed;
+        right: auto;
+        width: 100%;
+        padding: 0 5vw;
+        justify-content: space-between;
+        gap: 0;
+    }
+
+    .contact-reveal {
+        display: none;
+    }
+
+    body.panel-open {
+        transform: translateX(0);
+    }
+
+    aside {
+        width: 100%;
+        right: -100%;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    .panel-header {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 4rem 5vw 1rem 5vw;
+        justify-content: space-between;
+        margin-bottom: 0;
+        flex-shrink: 0;
+        background: var(--bg-color);
+        z-index: 12;
+    }
+
+    .panel-title {
+        font-size: 0.7rem;
+        padding: 0.5rem 0;
+        padding-left: 0.875rem;
+    }
+
+    .close-btn {
+        padding: 0.5rem 0;
+        padding-right: 0.875rem;
+        margin-right: 0;
+    }
+
+    .panel-content {
+        margin-top: 2rem;
+        padding: 0 calc(5vw + 0.875rem) 10vh calc(5vw + 0.875rem);
+        overflow-y: auto;
+        flex-grow: 1;
+        -webkit-overflow-scrolling: touch;
+        max-width: none;
+    }
+
+    .statement {
+        font-size: 1.25rem;
+    }
+
+    .credo-label {
+        padding-left: 0.875rem;
+    }
+
+    .contact-label {
+        padding-right: 0.875rem;
+    }
+}
+
 @media (min-width: 769px) {
     .contact-toast {
         display: none;
+    }
+}
+
+@media (hover: hover) {
+    .nav-link:hover .nav-label {
+        color: var(--text-primary);
+        letter-spacing: 0.5em;
+    }
+
+    .nav-link:hover .nav-label::after {
+        width: 100%;
+    }
+
+    .nav-link:hover .contact-reveal {
+        opacity: 1;
+        transform: translateY(0.125rem);
     }
 }

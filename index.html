@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <div class="grain"></div>
@@ -159,10 +160,13 @@
                 const x = (e.clientX - window.innerWidth / 2) / 100;
                 const y = (e.clientY - window.innerHeight / 2) / 100;
                 
-                document.querySelector('main').style.transform = `translate(${x}px, ${y}px)`;
-                document.querySelector('.signature').style.transform = `translate(calc(-50% + ${x}px), ${y}px)`;
-                document.querySelector('.profile-icon').style.transform = `translate(${x}px, ${y}px)`;
-                document.querySelector('.top-right-nav').style.transform = `translate(${x}px, ${y}px)`;
+                // Using rem instead of px for consistent rendering
+                const xRem = x / 16;
+                const yRem = y / 16;
+                
+                document.querySelector('main').style.transform = `translate(${xRem}rem, ${yRem}rem)`;
+                document.querySelector('.signature').style.transform = `translate(calc(-50% + ${xRem}rem), ${yRem}rem)`;
+                document.querySelector('.top-right-nav').style.transform = `translate(${xRem}rem, ${yRem}rem)`;
             }
         });
     </script>
