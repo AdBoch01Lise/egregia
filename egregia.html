@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egregia - Ingénierie patrimoniale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Cormorant Garamond', serif;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 4rem 8rem;
+            box-sizing: border-box;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 0;
+        }
+
+        .wrapper.credo-open {
+            justify-content: space-between;
+            gap: 4rem;
+        }
+
+        .main-container {
+            max-width: 700px;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 400;
+            margin: 0 0 1rem 0;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin: 0 0 4rem 0;
+            color: var(--text-color);
+        }
+
+        .main-text {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        .sub-text {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-color);
+            line-height: 1.4;
+        }
+
+        .credo-btn {
+            margin-top: 4rem;
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--text-color);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0 0 2px 0;
+            color: var(--text-color);
+            transition: opacity 0.3s ease;
+        }
+
+        .credo-btn:hover {
+            opacity: 0.6;
+        }
+
+        /* Credo Panel */
+        #credo-panel {
+            width: 0;
+            opacity: 0;
+            visibility: hidden;
+            overflow: hidden;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+            border-left: 1px solid var(--text-color);
+        }
+
+        #credo-panel.visible {
+            width: 400px;
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+            padding-left: 4rem;
+            flex-shrink: 0;
+        }
+
+        .credo-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .credo-body {
+            font-size: 1.1rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .credo-body p {
+            margin-bottom: 1.2rem;
+        }
+
+        .credo-body .highlight {
+            font-weight: 500;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .close-credo {
+            display: block;
+            margin-top: 2rem;
+            background: none;
+            border: none;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-bottom: 1px solid var(--text-color);
+            padding: 0;
+            color: var(--text-color);
+        }
+
+        @media (max-width: 1100px) {
+            body {
+                align-items: flex-start;
+                height: auto;
+                min-height: 100vh;
+                padding: 4rem 0;
+            }
+            .wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 2rem;
+                justify-content: flex-start;
+                min-height: auto;
+            }
+            #credo-panel.visible {
+                width: 100%;
+                padding-left: 0;
+                border-left: none;
+                border-top: 1px solid var(--text-color);
+                margin-top: 4rem;
+                padding-top: 4rem;
+                transform: translateY(30px);
+                opacity: 1;
+                visibility: visible;
+                overflow: visible;
+            }
+            #credo-panel.visible {
+                transform: translateY(0);
+            }
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 1.4rem; margin-bottom: 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="main-container" id="main-container">
+            <h1>Egregia</h1>
+            <h2>Ingénierie patrimoniale</h2>
+            
+            <div class="main-text">
+                Structuration et transmission<br>
+                des patrimoines privés et professionnels.
+            </div>
+
+            <div class="sub-text">
+                Expertise juridique et fiscale<br>
+                au service des familles et dirigeants,<br>
+                pour assurer la continuité entre les générations.
+            </div>
+
+            <button class="credo-btn" id="credo-toggle-btn" onclick="showCredo()">Credo</button>
+        </div>
+
+        <div id="credo-panel">
+            <h1 class="credo-title">Credo</h1>
+            <div class="credo-body">
+                <p>
+                    <span class="highlight">Egregia</span>
+                    Du latin <i>egregius</i> : remarquable, hors du commun.
+                </p>
+                <p>
+                    Ce nom porte une ambition simple et exigeante :<br>
+                    concevoir des architectures patrimoniales idoines, pensées pour nos clients.
+                </p>
+                <p>
+                    Nous intervenons là où le patrimoine devient une matière sensible.<br>
+                    Là où les décisions engagent des générations.
+                </p>
+                <p>
+                    Guidés par la précision, la clarté et la vision de long terme,<br>
+                    nous transformons la complexité en lignes claires<br>
+                    et l'incertitude en avenir sûr.
+                </p>
+                <p>
+                    Dans l'ombre des règles et des chiffres,<br>
+                    nous révélons ce qui importe vraiment.
+                </p>
+                <p style="margin-top: 1.5rem;">
+                    Ce qui doit être protégé.<br>
+                    Ce qui doit être transmis.<br>
+                    Ce qui doit traverser le temps.
+                </p>
+            </div>
+            <button class="close-credo" onclick="hideCredo()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        function showCredo() {
+            const wrapper = document.querySelector('.wrapper');
+            const panel = document.getElementById('credo-panel');
+            const btn = document.getElementById('credo-toggle-btn');
+            
+            wrapper.classList.add('credo-open');
+            panel.classList.add('visible');
+            btn.style.opacity = '0';
+            btn.style.pointerEvents = 'none';
+        }
+
+        function hideCredo() {
+            const wrapper = document.querySelector('.wrapper');
+            const panel = document.getElementById('credo-panel');
+            const btn = document.getElementById('credo-toggle-btn');
+            
+            wrapper.classList.remove('credo-open');
+            panel.classList.remove('visible');
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+        }
+    </script>
+</body>
+</html>
