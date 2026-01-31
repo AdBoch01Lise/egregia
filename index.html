@@ -14,7 +14,7 @@
             --text-primary: #121212;
             --text-secondary: #757575;
             --accent: #000000;
-            --transition-speed: 1.2s;
+            --transition-speed: 0.8s;
             --ease: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -43,7 +43,6 @@
 
         body.panel-open {
             overflow: hidden;
-            transform: translateX(-15%);
         }
 
         /* Initial Fade-in */
@@ -194,8 +193,6 @@
         .signature {
             position: fixed;
             bottom: 4rem;
-            /* left: 50%;
-            transform: translateX(-50%); */
             z-index: 1;
             white-space: nowrap;
             transition: transform 0.1s ease;
@@ -382,34 +379,37 @@
                 margin-right: 0;
             }
             .panel-content {
-                margin-top: 4rem;
+                margin-top: 6rem;
             }
             .statement {
                 font-size: 1.25rem;
+            }
+            .credo-label {
+                padding-left: 14px;
             }
         }
 
         /* Mobile Contact Toast */
         .contact-toast {
             position: fixed;
-            top: 7.5rem;
+            top: 1.4rem;
             left: 50%;
             transform: translateX(-50%) translateY(-10px);
             width: calc(100% - 4rem);
             color: #333333;
             font-size: 0.7rem;
-            font-weight: 600;
+            font-weight: 500;
             letter-spacing: 0.1em;
             padding: 1rem;
             background: #FFF5E0;
-            border-radius: 8px;
+            border-radius: 2px;
             text-align: center;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.5s ease, transform 0.6s var(--ease), visibility 0.5s;
             z-index: 1000;
             pointer-events: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); */
             border: 1px solid rgba(0, 0, 0, 0.02);
         }
 
@@ -448,7 +448,7 @@
 
     <nav class="top-right-nav fade-in">
         <button class="nav-link" id="open-panel" aria-label="Open Credo">
-            <span class="nav-label">Credo</span>
+            <span class="nav-label credo-label">Credo</span>
         </button>
         <a href="mailto:contact@egregia.fr" class="nav-link" aria-label="Contact Egregia">
             <span class="nav-label">Contact</span>
@@ -509,11 +509,10 @@
             body.classList.add('panel-open');
             overlay.classList.add('active');
             
-            // Ensure signature maintains its centered position when parallax stops
-            const signature = document.querySelector('.signature');
-            if (signature) {
-                signature.style.transform = 'translateX(-50%)';
-            }
+            // Reset parallax elements to their base positions
+            document.querySelector('main').style.transform = 'translate(0, 0)';
+            document.querySelector('.signature').style.transform = 'translateX(-50%)';
+            document.querySelector('.top-right-nav').style.transform = 'translate(0, 0)';
         };
 
         const closePanel = () => {
