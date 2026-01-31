@@ -150,13 +150,15 @@
             transition: width 0.6s var(--ease);
         }
 
-        .nav-link:hover .nav-label {
-            color: var(--text-primary);
-            letter-spacing: 0.5em;
-        }
+        @media (hover: hover) {
+            .nav-link:hover .nav-label {
+                color: var(--text-primary);
+                letter-spacing: 0.5em;
+            }
 
-        .nav-link:hover .nav-label::after {
-            width: 100%;
+            .nav-link:hover .nav-label::after {
+                width: 100%;
+            }
         }
 
         .contact-reveal {
@@ -181,16 +183,20 @@
             }
         }
 
-        .nav-link:hover .contact-reveal {
-            opacity: 1;
-            transform: translateY(2px);
+        @media (hover: hover) {
+            .nav-link:hover .contact-reveal {
+                opacity: 1;
+                transform: translateY(2px);
+            }
         }
 
 
         .signature {
             position: fixed;
             bottom: 4rem;
-            z-index: 5;
+            /* left: 50%;
+            transform: translateX(-50%); */
+            z-index: 1;
             white-space: nowrap;
             transition: transform 0.1s ease;
         }
@@ -350,6 +356,26 @@
                 width: 100%;
                 right: -100%;
             }
+            .panel-header {
+                position: absolute;
+                top: 5rem;
+                left: 0;
+                width: 100%;
+                padding: 0 5vw;
+                justify-content: space-between;
+                margin-bottom: 0;
+            }
+            .panel-title {
+                font-size: 0.7rem;
+                padding: 0.5rem 0;
+            }
+            .close-btn {
+                padding: 0.5rem 0;
+                margin-right: 0;
+            }
+            .panel-content {
+                margin-top: 8rem;
+            }
             .statement {
                 font-size: 1.25rem;
             }
@@ -358,24 +384,24 @@
         /* Mobile Contact Toast */
         .contact-toast {
             position: fixed;
-            bottom: 4rem;
+            top: 2rem;
             left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            color: #444444;
+            transform: translateX(-50%) translateY(-15px);
+            color: #333333;
             font-size: 0.7rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            padding: 1.2rem 2.5rem;
-            background: #FDFCF8;
-            border-radius: 4px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            padding: 0.8rem 1.8rem;
+            background: #fff0f2;
+            border-radius: 8px;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.5s ease, transform 0.8s var(--ease), visibility 0.5s;
+            transition: opacity 0.4s ease, transform 0.6s var(--ease), visibility 0.4s;
             z-index: 1000;
             pointer-events: none;
             white-space: nowrap;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.03);
         }
 
         .contact-toast.visible {
@@ -472,6 +498,12 @@
             sidePanel.classList.add('active');
             body.classList.add('panel-open');
             overlay.classList.add('active');
+            
+            // Ensure signature maintains its centered position when parallax stops
+            const signature = document.querySelector('.signature');
+            if (signature) {
+                signature.style.transform = 'translateX(-50%)';
+            }
         };
 
         const closePanel = () => {
@@ -496,12 +528,16 @@
             }
         }, { passive: true });
 
-        openBtn.addEventListener('click', openPanel);
+        openBtn.addEventListener('click', () => {
+            openBtn.blur();
+            openPanel();
+        });
         closeBtn.addEventListener('click', closePanel);
         overlay.addEventListener('click', closePanel);
 
         // Mobile Contact Toast
         contactLink.addEventListener('click', (e) => {
+            contactLink.blur();
             if (window.innerWidth <= 768) {
                 e.preventDefault();
                 const mailtoUrl = contactLink.href;
