@@ -369,7 +369,7 @@ aside.active {
         margin-right: 0;
     }
     .panel-content {
-        margin-top: 0;
+        margin-top: 2rem;
         padding: 0 calc(5vw + 14px) 10vh calc(5vw + 14px);
         overflow-y: auto;
         flex-grow: 1;
