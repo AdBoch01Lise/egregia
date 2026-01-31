@@ -1,271 +1,526 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Egregia - Ingénierie patrimoniale</title>
+    <title>EGREGIA</title>
+    <link rel="icon" type="image/x-icon" href="/images/logo-egeria.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #ffffff;
-            --text-color: #000000;
+            --bg-color: #fefefa;
+            --text-primary: #121212;
+            --text-secondary: #757575;
+            --accent: #000000;
+            --transition-speed: 1.2s;
+            --ease: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         html, body {
             height: 100%;
-            margin: 0;
-            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Cormorant Garamond', serif;
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            transition: transform var(--transition-speed) var(--ease);
+            min-height: 100vh;
         }
 
-        .wrapper {
-            width: 100%;
-            max-width: 1400px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 4rem 8rem;
-            box-sizing: border-box;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            gap: 0;
+        body.panel-open {
+            overflow: hidden;
+            transform: translateX(-15%);
         }
 
-        .wrapper.credo-open {
-            justify-content: space-between;
-            gap: 4rem;
+        /* Initial Fade-in */
+        .fade-in {
+            opacity: 0;
+            animation: fadeInAnimation 2s var(--ease) forwards;
         }
 
-        .main-container {
-            max-width: 700px;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            flex-shrink: 0;
+        @keyframes fadeInAnimation {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        h1 {
-            font-size: 5rem;
-            font-weight: 400;
-            margin: 0 0 1rem 0;
-            letter-spacing: -0.02em;
+        /* Main Content */
+        main {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+            z-index: 1;
+            transition: transform 0.1s ease;
         }
 
-        h2 {
-            font-size: 1.8rem;
-            font-weight: 500;
-            margin: 0 0 4rem 0;
-            color: var(--text-color);
-        }
-
-        .main-text {
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
-            font-weight: 400;
-            line-height: 1.4;
-        }
-
-        .sub-text {
-            font-size: 1.4rem;
+        .hero-text {
+            font-size: 0.9rem;
             font-weight: 300;
-            color: var(--text-color);
-            line-height: 1.4;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            transition: color 0.5s ease;
         }
 
-        .credo-btn {
-            margin-top: 4rem;
+        .hero-text:hover {
+            color: var(--text-primary);
+        }
+
+        .statement {
+            font-family: 'Inter', sans-serif;
+            font-weight: 100;
+            font-style: normal;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 4rem;
+            color: var(--text-primary);
+        }
+
+        /* Top Navigation */
+        .top-right-nav {
+            position: fixed;
+            top: 4rem;
+            right: 4rem;
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            z-index: 5;
+        }
+
+        @media (max-width: 768px) {
+            .top-right-nav {
+                top: 5rem;
+                right: auto;
+                width: 100%;
+                justify-content: center;
+                gap: 4rem;
+            }
+        }
+
+        .nav-link {
+            cursor: pointer;
             background: none;
             border: none;
-            border-bottom: 1px solid var(--text-color);
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0 0 2px 0;
-            color: var(--text-color);
-            transition: opacity 0.3s ease;
+            padding: 0.5rem 0;
+            outline: none;
+            text-decoration: none;
+            transition: opacity 0.8s var(--ease);
+            display: flex;
+            align-items: center;
+            color: var(--text-secondary);
+            font-family: inherit;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
 
-        .credo-btn:hover {
-            opacity: 0.6;
+        .nav-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: inherit;
+            transition: all 0.6s var(--ease);
+            font-weight: 300;
+            display: inline-block;
+            position: relative;
         }
 
-        /* Credo Panel */
-        #credo-panel {
+        .nav-label::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
             width: 0;
+            height: 1px;
+            background: var(--text-primary);
+            transition: width 0.6s var(--ease);
+        }
+
+        .nav-link:hover .nav-label {
+            color: var(--text-primary);
+            letter-spacing: 0.5em;
+        }
+
+        .nav-link:hover .nav-label::after {
+            width: 100%;
+        }
+
+        .contact-reveal {
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            opacity: 0;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            transition: all 0.6s var(--ease);
+            pointer-events: none;
+            white-space: nowrap;
+            font-weight: 300;
+            text-transform: none;
+        }
+
+        @media (max-width: 768px) {
+            .contact-reveal {
+                display: none;
+            }
+        }
+
+        .nav-link:hover .contact-reveal {
+            opacity: 1;
+            transform: translateY(2px);
+        }
+
+
+        .signature {
+            position: fixed;
+            bottom: 4rem;
+            z-index: 5;
+            white-space: nowrap;
+            transition: transform 0.1s ease;
+        }
+
+        .signature-text {
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            font-weight: 300;
+            user-select: none;
+            cursor: default;
+            background: linear-gradient(
+                to right, 
+                var(--text-secondary) 0%, 
+                var(--text-secondary) 45%, 
+                rgba(18, 18, 18, 1) 50%, 
+                var(--text-secondary) 55%, 
+                var(--text-secondary) 100%
+            );
+            background-size: 300% 100%;
+            background-position: 100% 0;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        .signature:hover .signature-text {
+            animation: metallicShine 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes metallicShine {
+            0% { background-position: 150% 0; }
+            100% { background-position: -50% 0; }
+        }
+
+        /* Side Panel */
+        aside {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 40%;
+            height: 100%;
+            background: #fefefa;
+            border-left: 1px solid #E8E8E5;
+            padding: 10vh 5vw;
+            display: flex;
+            flex-direction: column;
+            transition: right var(--transition-speed) var(--ease);
+            z-index: 10;
+            box-shadow: -15px 0 50px rgba(0, 0, 0, 0.02);
+            overflow-y: hidden;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        aside::-webkit-scrollbar {
+            display: none;
+        }
+
+        aside.active {
+            right: 0;
+        }
+
+        /* Overlay for clicking outside */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9;
+            background: rgba(254, 254, 250, 0.4);
+            backdrop-filter: blur(3.5px);
+            -webkit-backdrop-filter: blur(4px);
             opacity: 0;
             visibility: hidden;
-            overflow: hidden;
-            transform: translateX(50px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            text-align: left;
-            border-left: 1px solid var(--text-color);
+            transition: opacity var(--transition-speed) var(--ease), visibility var(--transition-speed) var(--ease);
+            cursor: pointer;
         }
 
-        #credo-panel.visible {
-            width: 400px;
+        #overlay.active {
             opacity: 1;
             visibility: visible;
-            transform: translateX(0);
-            padding-left: 4rem;
-            flex-shrink: 0;
         }
 
-        .credo-title {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            font-weight: 400;
+        .panel-header {
+            margin-bottom: 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .credo-body {
-            font-size: 1.1rem;
+        .panel-title {
+            font-size: 0.9rem;
             font-weight: 300;
-            line-height: 1.6;
-            color: var(--text-color);
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            transition: color 0.5s ease;
         }
 
-        .credo-body p {
-            margin-bottom: 1.2rem;
+        .panel-content {
+            flex-grow: 1;
+            font-family: 'Inter', sans-serif;
+            font-weight: 100;
+            font-style: normal;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            max-width: 400px;
         }
 
-        .credo-body .highlight {
-            font-weight: 500;
-            font-size: 1.2rem;
-            color: var(--text-color);
-            margin-bottom: 0.3rem;
-            display: block;
+        .panel-content p {
+            margin-bottom: 1.4rem;
         }
 
-        .close-credo {
-            display: block;
-            margin-top: 2rem;
+        .close-btn {
             background: none;
             border: none;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
+            color: var(--text-secondary);
             cursor: pointer;
-            border-bottom: 1px solid var(--text-color);
-            padding: 0;
-            color: var(--text-color);
+            padding: 0.5rem;
+            transition: all 0.6s var(--ease);
+            line-height: 1;
+            opacity: 0.4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 11;
+            margin-right: -0.5rem;
         }
 
-        @media (max-width: 1100px) {
-            body {
-                align-items: flex-start;
-                height: auto;
-                min-height: 100vh;
-                padding: 4rem 0;
+        .close-btn:hover {
+            opacity: 1;
+            color: var(--text-primary);
+        }
+
+        /* Background Grain Overlay */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            body.panel-open {
+                transform: translateX(0);
             }
-            .wrapper {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 2rem;
-                justify-content: flex-start;
-                min-height: auto;
-            }
-            #credo-panel.visible {
+            aside {
                 width: 100%;
-                padding-left: 0;
-                border-left: none;
-                border-top: 1px solid var(--text-color);
-                margin-top: 4rem;
-                padding-top: 4rem;
-                transform: translateY(30px);
-                opacity: 1;
-                visibility: visible;
-                overflow: visible;
+                right: -100%;
             }
-            #credo-panel.visible {
-                transform: translateY(0);
+            .statement {
+                font-size: 1.25rem;
             }
-            h1 { font-size: 3.5rem; }
-            h2 { font-size: 1.4rem; margin-bottom: 3rem; }
+        }
+
+        /* Mobile Contact Toast */
+        .contact-toast {
+            position: fixed;
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            color: #444444;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            padding: 1.2rem 2.5rem;
+            background: #FDFCF8;
+            border-radius: 4px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, transform 0.8s var(--ease), visibility 0.5s;
+            z-index: 1000;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-toast.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (min-width: 769px) {
+            .contact-toast {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="main-container" id="main-container">
-            <h1>Egregia</h1>
-            <h2>Ingénierie patrimoniale</h2>
-            
-            <div class="main-text">
-                Structuration et transmission<br>
-                des patrimoines privés et professionnels.
-            </div>
+    <div class="grain"></div>
+    <div id="overlay"></div>
 
-            <div class="sub-text">
-                Expertise juridique et fiscale<br>
-                au service des familles et dirigeants,<br>
-                pour assurer la continuité entre les générations.
-            </div>
-
-            <button class="credo-btn" id="credo-toggle-btn" onclick="showCredo()">Credo</button>
+    <main class="fade-in">
+        <div class="hero-text">Egregia</div>
+        <div class="statement">
+            Structuration et transmission<br>
+            des patrimoines privés et professionnels.<br>
+            <br>
+            Expertise juridique et fiscale <br>
+            au service des familles et dirigeants,<br>
+            pour assurer la continuité entre les générations.
         </div>
+    </main>
 
-        <div id="credo-panel">
-            <h1 class="credo-title">Credo</h1>
-            <div class="credo-body">
-                <p>
-                    <span class="highlight">Egregia</span>
-                    Du latin <i>egregius</i> : remarquable, hors du commun.
-                </p>
-                <p>
-                    Ce nom porte une ambition simple et exigeante :<br>
-                    concevoir des architectures patrimoniales idoines, pensées pour nos clients.
-                </p>
-                <p>
-                    Nous intervenons là où le patrimoine devient une matière sensible.<br>
-                    Là où les décisions engagent des générations.
-                </p>
-                <p>
-                    Guidés par la précision, la clarté et la vision de long terme,<br>
-                    nous transformons la complexité en lignes claires<br>
-                    et l'incertitude en avenir sûr.
-                </p>
-                <p>
-                    Dans l'ombre des règles et des chiffres,<br>
-                    nous révélons ce qui importe vraiment.
-                </p>
-                <p style="margin-top: 1.5rem;">
-                    Ce qui doit être protégé.<br>
-                    Ce qui doit être transmis.<br>
-                    Ce qui doit traverser le temps.
-                </p>
-            </div>
-            <button class="close-credo" onclick="hideCredo()">Fermer</button>
-        </div>
+    <div class="signature fade-in">
+        <span class="signature-text">Ingénierie patrimoniale</span>
     </div>
 
-    <script>
-        function showCredo() {
-            const wrapper = document.querySelector('.wrapper');
-            const panel = document.getElementById('credo-panel');
-            const btn = document.getElementById('credo-toggle-btn');
-            
-            wrapper.classList.add('credo-open');
-            panel.classList.add('visible');
-            btn.style.opacity = '0';
-            btn.style.pointerEvents = 'none';
-        }
+    <nav class="top-right-nav fade-in">
+        <button class="nav-link" id="open-panel" aria-label="Open Credo">
+            <span class="nav-label">Credo</span>
+        </button>
+        <a href="mailto:contact@egregia.fr" class="nav-link" aria-label="Contact Egregia">
+            <span class="nav-label">Contact</span>
+            <span class="contact-reveal">Confidentialité assurée</span>
+        </a>
+    </nav>
 
-        function hideCredo() {
-            const wrapper = document.querySelector('.wrapper');
-            const panel = document.getElementById('credo-panel');
-            const btn = document.getElementById('credo-toggle-btn');
-            
-            wrapper.classList.remove('credo-open');
-            panel.classList.remove('visible');
-            btn.style.opacity = '1';
-            btn.style.pointerEvents = 'auto';
-        }
+    <aside id="side-panel">
+        <div class="panel-header">
+            <h2 class="panel-title">Credo</h2>
+            <button class="close-btn" id="close-panel" aria-label="Close panel">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="0.5"/>
+                </svg>
+            </button>
+        </div>
+        <div class="panel-content">
+            <p>
+                <span style="font-weight: 550; font-size: 0.8rem;">Egregia</span><br>
+                Du latin <i>egregius</i> : remarquable, hors du commun.
+            </p>
+            <p>
+                Ce nom porte une ambition simple et exigeante :<br>
+                concevoir des architectures patrimoniales idoines, pensées pour nos clients.
+            </p>
+            <p>
+                Nous intervenons là où le patrimoine devient une matière sensible.<br>
+                Là où les décisions engagent des générations.
+            </p>
+            <p>
+                Guidés par la précision, la clarté et la vision de long terme, nous transformons la complexité en lignes claires et l'incertitude en avenir sûr.
+            </p>
+            <p>
+                Dans l'ombre des règles et des chiffres, nous révélons ce qui importe vraiment.
+            </p>
+            <p style="letter-spacing: 0.05em;">
+                Ce qui doit être protégé.<br>
+                Ce qui doit être transmis.<br>
+                Ce qui doit traverser le temps.
+            </p>
+        </div>
+    </aside>
+
+    <div id="contact-toast" class="contact-toast">Confidentialité assurée</div>
+
+    <script>
+        const openBtn = document.getElementById('open-panel');
+        const closeBtn = document.getElementById('close-panel');
+        const sidePanel = document.getElementById('side-panel');
+        const overlay = document.getElementById('overlay');
+        const body = document.body;
+        const contactLink = document.querySelector('a[href^="mailto:"]');
+        const contactToast = document.getElementById('contact-toast');
+
+        const openPanel = () => {
+            sidePanel.classList.add('active');
+            body.classList.add('panel-open');
+            overlay.classList.add('active');
+        };
+
+        const closePanel = () => {
+            sidePanel.classList.remove('active');
+            body.classList.remove('panel-open');
+            overlay.classList.remove('active');
+        };
+
+        openBtn.addEventListener('click', openPanel);
+        closeBtn.addEventListener('click', closePanel);
+        overlay.addEventListener('click', closePanel);
+
+        // Mobile Contact Toast
+        contactLink.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                const mailtoUrl = contactLink.href;
+                
+                contactToast.classList.add('visible');
+                
+                setTimeout(() => {
+                    contactToast.classList.remove('visible');
+                    // Small delay to let the fade-out begin before opening mail
+                    setTimeout(() => {
+                        window.location.href = mailtoUrl;
+                    }, 500);
+                }, 2500);
+            }
+        });
+
+        // Close panel on Esc key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && sidePanel.classList.contains('active')) {
+                closePanel();
+            }
+        });
+
+        // Subtle parallax effect on mouse move
+        document.addEventListener('mousemove', (e) => {
+            if (!sidePanel.classList.contains('active')) {
+                const x = (e.clientX - window.innerWidth / 2) / 100;
+                const y = (e.clientY - window.innerHeight / 2) / 100;
+                
+                document.querySelector('main').style.transform = `translate(${x}px, ${y}px)`;
+                document.querySelector('.signature').style.transform = `translate(calc(-50% + ${x}px), ${y}px)`;
+                document.querySelector('.profile-icon').style.transform = `translate(${x}px, ${y}px)`;
+                document.querySelector('.top-right-nav').style.transform = `translate(${x}px, ${y}px)`;
+            }
+        });
     </script>
 </body>
 </html>
