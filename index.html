@@ -480,6 +480,22 @@
             overlay.classList.remove('active');
         };
 
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        sidePanel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        sidePanel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const swipeDistance = touchEndX - touchStartX;
+            
+            if (window.innerWidth <= 768 && swipeDistance > 50) {
+                closePanel();
+            }
+        }, { passive: true });
+
         openBtn.addEventListener('click', openPanel);
         closeBtn.addEventListener('click', closePanel);
         overlay.addEventListener('click', closePanel);
@@ -498,7 +514,7 @@
                     setTimeout(() => {
                         window.location.href = mailtoUrl;
                     }, 500);
-                }, 2500);
+                }, 1500);
             }
         });
 
