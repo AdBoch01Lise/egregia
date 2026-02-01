@@ -71,6 +71,7 @@
                 Dans l'ombre des règles et des chiffres, nous révélons ce qui importe vraiment.
             </p>
             <p style="letter-spacing: 0.05em;">
+                Ce qui doit être aménagé.<br>
                 Ce qui doit être protégé.<br>
                 Ce qui doit être transmis.<br>
                 Ce qui doit traverser le temps.
@@ -94,6 +95,19 @@
             body.classList.add('panel-open');
             overlay.classList.add('active');
             
+            // Reset scroll positions
+            const resetScroll = () => {
+                sidePanel.scrollTop = 0;
+                const panelContent = sidePanel.querySelector('.panel-content');
+                if (panelContent) {
+                    panelContent.scrollTop = 0;
+                }
+            };
+
+            resetScroll();
+            // Small delay to ensure it works on all mobile browsers during transition
+            setTimeout(resetScroll, 10);
+
             // Reset parallax elements to their base positions on desktop
             if (window.innerWidth > 768) {
                 document.querySelector('main').style.transform = 'translate(0, 0)';
@@ -106,6 +120,16 @@
             sidePanel.classList.remove('active');
             body.classList.remove('panel-open');
             overlay.classList.remove('active');
+            
+            // Also reset scroll after closing transition finishes
+            setTimeout(() => {
+                sidePanel.scrollTop = 0;
+                const panelContent = sidePanel.querySelector('.panel-content');
+                if (panelContent) {
+                    // console.log('resetting scroll', );
+                    panelContent.scrollTop = 0;
+                }
+            }, 800);
         };
 
         let touchStartX = 0;

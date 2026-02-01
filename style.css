@@ -320,7 +320,7 @@ aside.active {
     color: var(--text-secondary);
     font-size: 0.6rem;
     letter-spacing: 0.1em;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0.05em;
     padding: 0.9rem 1rem;
     background: var(--bg-color);
@@ -414,6 +414,10 @@ aside.active {
 
     .contact-label {
         padding-right: 0.875rem;
+    }
+
+    .signature {
+        bottom: 2.5rem;
     }
 }
 
