@@ -343,6 +343,10 @@ aside.active {
 /* --- Media Queries --- */
 
 @media (max-width: 768px) {
+    .hero-text {
+        color: #1f2326;
+    }
+
     .top-right-nav {
         top: 4rem;
         position: fixed;
