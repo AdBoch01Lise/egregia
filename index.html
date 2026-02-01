@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EGREGIA</title>
-    <link rel="icon" type="image/x-icon" href="/images/logo-egeria.svg">
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
@@ -28,7 +28,8 @@
     </main>
 
     <div class="signature fade-in">
-        <span class="signature-text">Ingénierie patrimoniale</span>
+        <span class="signature-text">Ingénierie patrimoniale © 2026</span>
+        
     </div>
 
     <nav class="top-right-nav fade-in">
@@ -93,10 +94,12 @@
             body.classList.add('panel-open');
             overlay.classList.add('active');
             
-            // Reset parallax elements to their base positions
-            document.querySelector('main').style.transform = 'translate(0, 0)';
-            document.querySelector('.signature').style.transform = 'translateX(-50%)';
-            document.querySelector('.top-right-nav').style.transform = 'translate(0, 0)';
+            // Reset parallax elements to their base positions on desktop
+            if (window.innerWidth > 768) {
+                document.querySelector('main').style.transform = 'translate(0, 0)';
+                document.querySelector('.signature').style.transform = 'translateX(-50%)';
+                document.querySelector('.top-right-nav').style.transform = 'translate(0, 0)';
+            }
         };
 
         const closePanel = () => {
@@ -143,7 +146,7 @@
                     setTimeout(() => {
                         window.location.href = mailtoUrl;
                     }, 600);
-                }, 2500);
+                }, 1500);
             }
         });
 
@@ -156,7 +159,7 @@
 
         // Subtle parallax effect on mouse move
         document.addEventListener('mousemove', (e) => {
-            if (!sidePanel.classList.contains('active')) {
+            if (window.innerWidth > 768 && !sidePanel.classList.contains('active')) {
                 const x = (e.clientX - window.innerWidth / 2) / 100;
                 const y = (e.clientY - window.innerHeight / 2) / 100;
                 

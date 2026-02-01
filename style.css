@@ -254,7 +254,7 @@ aside.active {
 }
 
 .panel-title {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     font-weight: 300;
     letter-spacing: 0.4em;
     text-transform: uppercase;
@@ -317,12 +317,13 @@ aside.active {
     top: 0;
     left: 0;
     width: 100%;
-    color: #333333;
-    font-size: 0.75rem;
-    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    font-weight: 300;
     letter-spacing: 0.05em;
     padding: 0.9rem 1rem;
-    background: #F5F5F5;
+    background: var(--bg-color);
     border-radius: 0;
     text-align: center;
     opacity: 0;
@@ -349,6 +350,7 @@ aside.active {
         width: 100%;
         padding: 0 5vw;
         justify-content: space-between;
+        align-items: flex-start;
         gap: 0;
     }
 
@@ -357,7 +359,7 @@ aside.active {
     }
 
     body.panel-open {
-        transform: translateX(0);
+        overflow: hidden;
     }
 
     aside {
@@ -374,6 +376,7 @@ aside.active {
         width: 100%;
         padding: 4rem 5vw 1rem 5vw;
         justify-content: space-between;
+        align-items: flex-start;
         margin-bottom: 0;
         flex-shrink: 0;
         background: var(--bg-color);
