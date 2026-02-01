@@ -155,7 +155,7 @@ main {
 
 .signature {
     position: fixed;
-    bottom: 4rem;
+    bottom: 2.5rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
@@ -420,9 +420,6 @@ aside.active {
         padding-right: 0.875rem;
     }
 
-    .signature {
-        bottom: 2.5rem;
-    }
 }
 
 @media (min-width: 769px) {
