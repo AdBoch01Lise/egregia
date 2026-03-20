@@ -1,10 +1,38 @@
+/* Egregia – Feldman-style revamp */
+
+/* Zapf Humanist 601 – brand font */
+@font-face {
+    font-family: "Zapf Humanist 601";
+    src: url("https://db.onlinewebfonts.com/t/40e09661a388a99738eb8da7d314240a.eot");
+    src: url("https://db.onlinewebfonts.com/t/40e09661a388a99738eb8da7d314240a.eot?#iefix") format("embedded-opentype"),
+         url("https://db.onlinewebfonts.com/t/40e09661a388a99738eb8da7d314240a.woff2") format("woff2"),
+         url("https://db.onlinewebfonts.com/t/40e09661a388a99738eb8da7d314240a.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* PP Fraktion Mono */
+@font-face {
+    font-family: "PP Fraktion Mono";
+    src: local("PP Fraktion Mono"),
+         local("PPFraktionMono-Regular"),
+         url("fonts/PPFraktionMono-Regular.woff2") format("woff2"),
+         url("fonts/PPFraktionMono-Regular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
-    --bg-color: #fffffb;
-    --text-primary: #121212;
-    --text-secondary: #757575;
-    --accent: #000000;
-    --transition-speed: 0.8s;
-    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --bg: #FFFFFB;
+    --text: #1f1f1f;
+    --brand: #262626;
+    --menu: #2b2b2b;
+    --details: #5a5a5a;
+    --line: #a3a3a3;
+    --line-light: #cccccc;
+    --transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -15,425 +43,363 @@
 
 html, body {
     height: 100%;
-    background-color: var(--bg-color);
-    color: var(--text-primary);
-    font-family: 'Garamond', serif;
-    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform var(--transition-speed) var(--ease);
-    min-height: 100vh;
 }
 
 body.panel-open {
     overflow: hidden;
 }
 
-/* Initial Fade-in */
-.fade-in {
-    opacity: 0;
-    animation: fadeInAnimation 2s var(--ease) forwards;
-}
-
-@keyframes fadeInAnimation {
-    from { opacity: 0; transform: translate3d(0, 0.6rem, 0); }
-    to { opacity: 1; transform: translate3d(0, 0, 0); }
-}
-
-.signature.fade-in {
-    animation: fadeInSignature 2s var(--ease) forwards;
-}
-
-@keyframes fadeInSignature {
-    from { opacity: 0; transform: translate3d(-50%, 0.6rem, 0); }
-    to { opacity: 1; transform: translate3d(-50%, 0, 0); }
-}
-
-/* Main Content */
-main {
-    text-align: center;
-    max-width: 600px;
-    padding: 2rem;
-    z-index: 1;
-    transition: transform 0.1s ease;
-}
-
-.hero-text {
-    font-size: 1.2rem;
-    font-weight: 300;
-    letter-spacing: 0.4em;
-    color: var(--text-primary);
-    margin-bottom: 2rem;
-    transition: color 0.5s ease;
-}
-
-.statement {
-    font-family: 'Garamond', serif;
-    font-weight: 300;
-    font-style: normal;
-    font-size: 1.0rem;
-    line-height: 1.6;
-    margin-bottom: 4rem;
-    color: var(--text-primary);
-}
-
-/* Top Navigation */
-.top-right-nav {
+/* ---- Splash: text appear then disappear ---- */
+.splash {
     position: fixed;
-    top: 4rem;
-    right: 4rem;
+    inset: 0;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 2.5rem;
-    z-index: 5;
+    background: var(--bg);
+    z-index: 100;
+    transition: opacity 0.9s var(--transition);
+}
+
+.splash-title,
+.splash-tagline {
+    animation: splashAppear 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.splash-tagline {
+    animation-delay: 0.12s;
+    opacity: 0;
+}
+
+.splash-title {
+    opacity: 0;
+}
+
+@keyframes splashAppear {
+    from {
+        opacity: 0;
+        transform: translateY(0.4rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.splash.fade-out .splash-title,
+.splash.fade-out .splash-tagline {
+    animation: splashDisappear 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes splashDisappear {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-0.5rem);
+    }
+}
+
+.splash.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.splash-title {
+    font-family: 'Zapf Humanist 601', 'Libre Baskerville', 'Georgia', serif;
+    font-size: 35px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.55rem;
+}
+
+.splash-tagline {
+    font-family: 'PP Fraktion Mono', 'IBM Plex Mono', 'Consolas', monospace;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+    color: var(--text);
+}
+
+/* ---- Page wrapper: main + content panel share same layout ---- */
+.page-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+}
+
+/* ---- Content layout: 3 columns, pixel-perfect spacing ---- */
+.content-layout {
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 52%) 1fr;
+    gap: 27px;
+    align-items: start;
+    padding: 0 84px 72px 72px;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* ---- Main (landing): content at bottom ---- */
+.main {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s var(--transition);
+}
+
+.main.visible {
+    opacity: 1;
+}
+
+.main.visible .layout-left,
+.main.visible .layout-right {
+    animation: mainReveal 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.main.visible .layout-right {
+    animation-delay: 0.08s;
+    opacity: 0;
+}
+
+.main.visible .layout-left {
+    opacity: 0;
+}
+
+@keyframes mainReveal {
+    from {
+        opacity: 0;
+        transform: translateY(0.8rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.layout-left {
+    display: flex;
+    align-items: flex-start;
+}
+
+.brand {
+    font-family: 'Zapf Humanist 601', 'Libre Baskerville', 'Georgia', serif;
+    font-size: 35px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    color: var(--brand);
+}
+
+.layout-right {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-left: 28px;
+    font-family: 'PP Fraktion Mono', 'IBM Plex Mono', 'Consolas', monospace;
+    justify-self: end;
+}
+
+.layout-right::before {
+    content: '';
+    position: absolute;
+    left: -29px;
+    top: -12px;
+    width: 1px;
+    height: 180px;
+    background: var(--line);
+}
+
+.nav-links {
+    display: flex;
+    gap: 38px;
+    margin-bottom: 64px;
+    font-size: 11px;
 }
 
 .nav-link {
-    cursor: pointer;
     background: none;
     border: none;
-    padding: 0.5rem 0;
-    outline: none;
-    text-decoration: none;
-    transition: opacity 0.8s var(--ease);
-    display: flex;
-    align-items: center;
-    color: var(--text-secondary);
-    font-family: inherit;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
-
-.nav-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.4em;
-    color: inherit;
-    transition: all 0.6s var(--ease);
-    font-weight: 300;
-    display: inline-block;
-    position: relative;
-}
-
-.nav-label::after {
-    content: '';
-    position: absolute;
-    bottom: -0.3rem;
-    left: 0;
-    width: 0;
-    height: 0.0625rem;
-    background: var(--text-primary);
-    transition: width 0.6s var(--ease);
-}
-
-.contact-reveal {
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    color: var(--text-secondary);
-    opacity: 0;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 0.5rem;
-    transition: all 0.6s var(--ease);
-    pointer-events: none;
-    white-space: nowrap;
-    font-weight: 300;
-    text-transform: none;
-}
-
-.signature {
-    position: fixed;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-    white-space: nowrap;
-    transition: transform 0.1s ease;
-}
-
-.signature-text {
-    font-size: 0.6rem;
-    letter-spacing: 0.4em;
-    font-weight: 300;
-    user-select: none;
-    cursor: default;
-    background: linear-gradient(
-        to right, 
-        var(--text-secondary) 0%, 
-        var(--text-secondary) 45%, 
-        rgba(18, 18, 18, 1) 50%, 
-        var(--text-secondary) 55%, 
-        var(--text-secondary) 100%
-    );
-    background-size: 300% 100%;
-    background-position: 100% 0;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: var(--text-secondary);
-}
-
-.signature:hover .signature-text {
-    animation: metallicShine 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes metallicShine {
-    0% { background-position: 150% 0; }
-    100% { background-position: -50% 0; }
-}
-
-/* Side Panel */
-aside {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 40%;
-    height: 100%;
-    background: #fefefa;
-    border-left: 0.0625rem solid #E8E8E5;
     padding: 0;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    color: var(--menu);
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: opacity 0.3s ease;
+}
+
+.nav-link:hover {
+    opacity: 0.6;
+}
+
+.tagline,
+.location-time,
+.copyright {
+    font-family: 'PP Fraktion Mono', 'IBM Plex Mono', 'Consolas', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.55;
+    letter-spacing: 0.2px;
+    color: var(--details);
+}
+
+.tagline {
+    margin-bottom: 18px;
+}
+
+.location-time {
+    font-style: italic;
+}
+
+.credits {
     display: flex;
     flex-direction: column;
-    transition: right var(--transition-speed) var(--ease);
-    z-index: 10;
-    box-shadow: -1rem 0 3rem rgba(0, 0, 0, 0.02);
-    overflow: hidden;
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    gap: 0;
 }
 
-aside::-webkit-scrollbar {
-    display: none;
+.credits .location-time,
+.credits .copyright {
+    margin: 0;
+    line-height: 1.35;
 }
 
-aside.active {
-    right: 0;
+
+/* ---- Content panel: slides UP from bottom when opening, DOWN when closing ---- */
+.content-panel {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: flex-end;
+    pointer-events: none;
 }
 
-/* Overlay for clicking outside */
-#overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
+.content-panel.active {
+    pointer-events: auto;
+}
+
+.content-panel-inner {
     width: 100%;
     height: 100%;
-    z-index: 9;
-    background: rgba(254, 254, 250, 0.4);
-    backdrop-filter: blur(3.5px);
-    -webkit-backdrop-filter: blur(4px);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity var(--transition-speed) var(--ease), visibility var(--transition-speed) var(--ease);
-    cursor: pointer;
-}
-
-#overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* .panel-header {
-    margin-bottom: 4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-} */
-.panel-header {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 4rem 5vw 1rem 5vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-    flex-shrink: 0;
-    background: #fefefa;
-    z-index: 12;
-}
-
-.panel-title {
-    font-size: 0.7rem;
-    font-weight: 300;
-    letter-spacing: 0.4em;
-    color: var(--text-secondary);
-    transition: color 0.5s ease;
-}
-
-.panel-content {
-    flex-grow: 1;
+    background: var(--bg);
+    transform: translateY(100%);
+    transition: transform var(--transition);
     overflow-y: auto;
-    padding: 0 5vw 10vh 5vw;
-    font-family: 'Garamond', serif;
-    font-weight: 100;
-    font-style: normal;
-    font-size: 1.0rem;
-    line-height: 1.4;
-    color: var(--text-primary);
-    max-width: 400px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-.panel-content::-webkit-scrollbar {
-    display: none;
-}
-
-.panel-content p {
-    margin-bottom: 1.4rem;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    padding: 0.5rem;
-    transition: all 0.6s var(--ease);
-    line-height: 1;
-    opacity: 0.4;
+    overflow-x: hidden;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    z-index: 11;
-    margin-right: -0.5rem;
+    padding-top: 38vh;
+    box-sizing: border-box;
 }
 
-.close-btn:hover {
-    opacity: 1;
-    color: var(--text-primary);
-}
-
-/* Background Grain Overlay */
-.grain {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.04;
-    pointer-events: none;
-    z-index: 100;
-}
-
-/* Mobile Contact Toast */
-.contact-toast {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    color: var(--text-secondary);
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    font-weight: 400;
-    letter-spacing: 0.05em;
-    padding: 0.9rem 1rem;
-    background: var(--bg-color);
-    border-radius: 0;
-    text-align: center;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-100%);
-    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
-    z-index: 1000;
-    pointer-events: none;
-}
-
-.contact-toast.visible {
-    opacity: 1;
-    visibility: visible;
+.content-panel.active .content-panel-inner {
     transform: translateY(0);
 }
 
-/* --- Media Queries --- */
-
-@media (max-width: 768px) {
-
-    .top-right-nav {
-        top: 4rem;
-        position: fixed;
-        right: auto;
-        width: 100%;
-        padding: 0 5vw;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 0;
-    }
-
-    .contact-reveal {
-        display: none;
-    }
-
-    body.panel-open {
-        overflow: hidden;
-    }
-
-    aside {
-        width: 100%;
-        right: -100%;
-        overflow: hidden;
-        padding: 0;
-    }
-
-    .panel-header {
-        padding: 4rem 5vw 1rem 5vw;
-        margin-bottom: 0;
-    }
-
-    .panel-title {
-        padding: 0.5rem 0;
-        padding-left: 0.875rem;
-    }
-
-    .close-btn {
-        padding: 0.5rem 0;
-        padding-right: 0.875rem;
-        margin-right: 0;
-    }
-
-    .panel-content {
-        margin-top: 2rem;
-        padding: 0 calc(5vw + 0.875rem) 10vh calc(5vw + 0.875rem);
-        max-width: none;
-    }
-
-    .credo-label {
-        padding-left: 0.875rem;
-    }
-
-    .contact-label {
-        padding-right: 0.875rem;
-    }
-
+.content-panel.active .content-layout {
+    animation: contentReveal 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
 }
 
-@media (min-width: 769px) {
-    .contact-toast {
-        display: none;
+@keyframes contentReveal {
+    from {
+        opacity: 0;
+        transform: translateY(1rem);
     }
-}
-
-@media (hover: hover) {
-    .nav-link:hover .nav-label {
-        color: var(--text-primary);
-        letter-spacing: 0.5em;
-    }
-
-    .nav-link:hover .nav-label::after {
-        width: 100%;
-    }
-
-    .nav-link:hover .contact-reveal {
+    to {
         opacity: 1;
-        transform: translateY(0.125rem);
+        transform: translateY(0);
+    }
+}
+
+/* ---- Scrollable center column (À propos / Credo) ---- */
+.layout-center-scroll {
+    display: flex;
+    align-items: flex-start;
+    max-height: min(45vh, 380px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.layout-center-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.layout-center-scroll.has-more-content {
+    mask-image: linear-gradient(to bottom, black 0%, black 75%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 75%, transparent 100%);
+}
+
+.content-body {
+    font-family: 'PP Fraktion Mono', 'IBM Plex Mono', 'Consolas', monospace;
+    font-size: 11px;
+    line-height: 1.55;
+    letter-spacing: 0.2px;
+    color: var(--text);
+}
+
+.content-body p {
+    margin-bottom: 1.2rem;
+}
+
+.content-body p:last-child {
+    margin-bottom: 0;
+}
+
+.content-body strong {
+    font-weight: 500;
+}
+
+.content-body .dash {
+    margin: 1.5rem 0;
+    opacity: 0.7;
+}
+
+.content-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.content-nav .nav-link {
+    font-size: 11.5px;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .content-layout {
+        grid-template-columns: 1fr;
+        padding: 0 1.5rem 52px 1.5rem;
+    }
+
+    .layout-right {
+        padding-left: 0;
+        padding-top: 1rem;
+        margin-top: 0.5rem;
+        border-top: 1px solid var(--line);
+    }
+
+    .layout-right::before {
+        display: none;
     }
 }
