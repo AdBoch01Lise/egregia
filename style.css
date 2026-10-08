@@ -373,6 +373,41 @@ body.panel-open {
     opacity: 0.7;
 }
 
+.content-body .reveal {
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.content-body .reveal-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    vertical-align: middle;
+    margin: 0 2px;
+}
+
+.content-body .reveal-text {
+    display: none;
+}
+
+.content-body .reveal:hover .reveal-dot,
+.content-body .reveal.open .reveal-dot {
+    display: none;
+}
+
+.content-body .reveal:hover .reveal-text,
+.content-body .reveal.open .reveal-text {
+    display: inline;
+}
+
 .content-nav {
     display: flex;
     justify-content: space-between;
