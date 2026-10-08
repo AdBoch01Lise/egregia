@@ -56,12 +56,21 @@
         contentCenter.classList.toggle('has-more-content', !atBottom);
     }
 
+    // Keep the panel's right column (and its line) at the same width as the landing one
+    const mainRight = main.querySelector('.layout-right');
+    const panelRight = contentPanel.querySelector('.layout-right');
+
+    function syncRightWidth() {
+        panelRight.style.width = mainRight.getBoundingClientRect().width + 'px';
+    }
+
     function openPage(page) {
         if (page === 'apropos') {
             contentBody.innerHTML = APROPOS_HTML;
         } else if (page === 'credo') {
             contentBody.innerHTML = CREDO_HTML;
         }
+        syncRightWidth();
         contentPanel.classList.add('active');
         document.body.classList.add('panel-open');
         if (contentCenter) {
@@ -119,6 +128,7 @@
     });
 
     window.addEventListener('resize', function () {
+        syncRightWidth();
         if (contentPanel.classList.contains('active') && contentCenter) {
             updateScrollFade();
         }
